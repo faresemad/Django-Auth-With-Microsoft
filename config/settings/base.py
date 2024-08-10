@@ -1,14 +1,16 @@
+import os
 from pathlib import Path
 
 import environ
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
 env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
+SECRET_KEY = env.str('SECRET_KEY')
 
-SECRET_KEY = env('SECRET_KEY')
-
-DEBUG = env('DEBUG', default=False)
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
@@ -20,11 +22,10 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.auth',
 ]
 
 LOCAL_APPS = [
-    'apps.auth',
+    'apps.users',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
@@ -40,7 +41,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'core.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -58,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
