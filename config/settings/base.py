@@ -43,7 +43,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_auth_adfs.middleware.LoginRequiredMiddleware',
+    # 'django_auth_adfs.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -122,18 +122,19 @@ AUTHENTICATION_BACKENDS = (
     'django_auth_adfs.backend.AdfsAuthCodeBackend',
 )
 
-LOGIN_URL = "django_auth_adfs:login"
-LOGIN_REDIRECT_URL = "/"
+# LOGIN_URL = "django_auth_adfs:login"
+# LOGIN_REDIRECT_URL = "/"
 
-client_id = env.str('ADFS_CLIENT_ID')
-client_secret = env.str('DJANGO_CLIENT_SECRET')
-tenant_id = env.str('ADFS_TENANT_ID')
+CLIENT_ID = env.str('ADFS_CLIENT_ID')
+CLIENT_SECRET = env.str('DJANGO_CLIENT_SECRET')
+TENANT_ID = env.str('ADFS_TENANT_ID')
 
+ADFS_URL = f"https://login.microsoftonline.com/{TENANT_ID}/oauth2/token"
 
 AUTH_ADFS = {
-    'AUDIENCE': client_id,
-    'CLIENT_ID': client_id,
-    'CLIENT_SECRET': client_secret,
+    'AUDIENCE': CLIENT_ID,
+    'CLIENT_ID': CLIENT_ID,
+    'CLIENT_SECRET': CLIENT_SECRET,
     'CLAIM_MAPPING': {
         'first_name': 'given_name',
         'last_name': 'family_name',
@@ -142,6 +143,6 @@ AUTH_ADFS = {
     'GROUPS_CLAIM': 'roles',
     'MIRROR_GROUPS': True,
     'USERNAME_CLAIM': 'upn',
-    'TENANT_ID': tenant_id,
-    'RELYING_PARTY_ID': client_id,
+    'TENANT_ID': TENANT_ID,
+    'RELYING_PARTY_ID': CLIENT_ID,
 }
