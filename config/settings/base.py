@@ -43,6 +43,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_auth_adfs.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -125,7 +126,7 @@ LOGIN_URL = "django_auth_adfs:login"
 LOGIN_REDIRECT_URL = "/"
 
 client_id = env.str('ADFS_CLIENT_ID')
-client_secret = env.str('ADFS_CLIENT_SECRET')
+client_secret = env.str('DJANGO_CLIENT_SECRET')
 tenant_id = env.str('ADFS_TENANT_ID')
 
 
